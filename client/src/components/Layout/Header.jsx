@@ -21,7 +21,7 @@ const Header = () => {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ backgroundColor: "grey" }}>
         <div className="container-fluid">
           <button
             className="navbar-toggler"

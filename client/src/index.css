@@ -4,6 +4,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
+
 }
 
 /* font-family: "Poppins", sans-serif; */
@@ -19,9 +21,11 @@
   box-shadow: 0 8px 6px -6px gray;
   --webkit-box-shadow: 0 8px 6px -6px gray;
   border-bottom: 0.1px solid gray !important;
+ 
 }
 .nav-link{
-  font-weight: 300 !important;
+  font-weight: 500 !important;
+  
 }
 .active{
   border-bottom: 2px solid black;
@@ -128,3 +132,10 @@
   text-decoration: none;
   color: black !important;
 }
+.register-forgot{
+  display: flex;
+  margin-top: 10px;
+  color: black;
+justify-content: space-between;
+}
+
