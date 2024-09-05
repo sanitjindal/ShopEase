@@ -1,24 +1,68 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/Auth";
 import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput";
 import useCategory from "../../Hooks/useCategory";
 import { useCart } from "../../Context/Cart";
-import {Badge} from "antd"
+import { Badge } from "antd";
+import ConfirmLogoutDialog from "./ConfirmLogoutDialog";
+import axios from "axios";
+
 const Header = () => {
   const [auth, setAuth] = useAuth();
-  const [cart] = useCart()
+  const [cart, setCart] = useCart();
   const categories = useCategory();
+  const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({});
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/login/success", { withCredentials: true });
+      setUserData(response.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser(); // Call getUser to fetch user data on component mount
+    if (auth?.user) {
+      const savedCart = localStorage.getItem(`cart_${auth.user._id}`);
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+    }
+  }, [auth, setCart]);
+
+  useEffect(() => {
+    if (auth?.user) {
+      localStorage.setItem(`cart_${auth.user._id}`, JSON.stringify(cart));
+    }
+  }, [cart, auth]);
+
   const handleLogout = () => {
+    if (auth?.user) {
+      localStorage.setItem(`cart_${auth.user._id}`, JSON.stringify(cart));
+    }
+
     setAuth({
       ...auth,
       user: null,
       token: "",
     });
+    setCart([]);
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
+    setShowConfirm(false);
+    navigate("/login");
   };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ backgroundColor: "grey" }}>
@@ -36,12 +80,12 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <Link to="/" className="navbar-brand fancy-brand">
-            🛍️ ShopEase
+              🛍️ ShopEase
             </Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <SearchInput />
               <li className="nav-item">
-                <NavLink to="/" className="nav-link ">
+                <NavLink to="/" className="nav-link">
                   Home
                 </NavLink>
               </li>
@@ -60,11 +104,8 @@ const Header = () => {
                     </Link>
                   </li>
                   {categories?.map((c) => (
-                    <li>
-                      <Link
-                        className="dropdown-item"
-                        to={`/category/${c.slug}`}
-                      >
+                    <li key={c.slug}>
+                      <Link className="dropdown-item" to={`/category/${c.slug}`}>
                         {c.name}
                       </Link>
                     </li>
@@ -90,7 +131,7 @@ const Header = () => {
                   <li className="nav-item dropdown">
                     <NavLink
                       className="nav-link dropdown-toggle"
-                      href="#"
+                      to="#"
                       role="button"
                       data-bs-toggle="dropdown"
                       style={{ border: "none" }}
@@ -100,9 +141,7 @@ const Header = () => {
                     <ul className="dropdown-menu">
                       <li>
                         <NavLink
-                          to={`/dashboard/${
-                            auth?.user?.role === 1 ? "admin" : "user"
-                          }`}
+                          to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
                           className="dropdown-item"
                         >
                           Dashboard
@@ -110,8 +149,8 @@ const Header = () => {
                       </li>
                       <li>
                         <NavLink
-                          onClick={handleLogout}
-                          to="/login"
+                          onClick={() => setShowConfirm(true)}
+                          to="#"
                           className="dropdown-item"
                         >
                           Logout
@@ -132,6 +171,13 @@ const Header = () => {
           </div>
         </div>
       </nav>
+
+      {showConfirm && (
+        <ConfirmLogoutDialog
+          onConfirm={handleLogout}
+          onCancel={handleCancel}
+        />
+      )}
     </>
   );
 };

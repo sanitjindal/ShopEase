@@ -3,17 +3,24 @@ import Layout from "./../components/Layout/Layout";
 import { useCart } from "../Context/Cart";
 import { useAuth } from "../Context/Auth";
 import { useNavigate } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+
 const CartPage = () => {
-  const [auth, setAuth] = useAuth();
-  const [cart, setCart] = useCart();
+  const [auth] = useAuth();
+  const [cart, setCart] = useCart(); // Destructure the setter function
   const navigate = useNavigate();
 
-  //total price
+  // Load Stripe with your public key
+  const stripePromise = loadStripe(
+    process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
+  );
+
+  // Calculate total price
   const totalPrice = () => {
     try {
       let total = 0;
-      cart?.map((item) => {
-        total = total + item.price;
+      cart?.forEach((item) => {
+        total += item.price;
       });
       return total.toLocaleString("en-US", {
         style: "currency",
@@ -23,18 +30,59 @@ const CartPage = () => {
       console.log(error);
     }
   };
-  //detele item
+
+  // Remove item from cart
   const removeCartItem = (pid) => {
     try {
       let myCart = [...cart];
       let index = myCart.findIndex((item) => item._id === pid);
       myCart.splice(index, 1);
-      setCart(myCart);
+      setCart(myCart); // Use the setter function to update the cart state
       localStorage.setItem("cart", JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
     }
   };
+
+  // Handle payment
+  const handlePayment = async () => {
+    try {
+      const stripe = await stripePromise;
+
+      // Step 1: Create a Stripe Checkout session
+      const response = await fetch(
+        "http://localhost:8080/api/payment/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cartItems: cart.map((item) => ({
+              id: item._id,
+              name: item.name,
+              description: item.description,
+              price: item.price,
+            })),
+          }),
+        }
+      );
+
+      const session = await response.json();
+
+      // Redirect to Stripe Checkout
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      if (result.error) {
+        console.error(result.error.message);
+      }
+    } catch (error) {
+      console.error("Payment failed:", error);
+    }
+  };
+
   return (
     <Layout>
       <div className="container">
@@ -55,7 +103,7 @@ const CartPage = () => {
         <div className="row">
           <div className="col-md-8">
             {cart?.map((p) => (
-              <div className="row mb-2 p-3 card flex-row">
+              <div className="row mb-2 p-3 card flex-row" key={p._id}>
                 <div className="col-md-4">
                   <img
                     src={`/api/product/product-photo/${p._id}`}
@@ -85,18 +133,16 @@ const CartPage = () => {
             <hr />
             <h4>Total : {totalPrice()} </h4>
             {auth?.user?.address ? (
-              <>
-                <div className="mb-3">
-                  <h4>Current Address</h4>
-                  <h5>{auth?.user?.address}</h5>
-                  <button
-                    className="btn btn-outline-warning"
-                    onClick={() => navigate("/dashboard/user/profile")}
-                  >
-                    Update Address
-                  </button>
-                </div>
-              </>
+              <div className="mb-3">
+                <h4>Current Address</h4>
+                <h5>{auth?.user?.address}</h5>
+                <button
+                  className="btn btn-outline-warning"
+                  onClick={() => navigate("/dashboard/user/profile")}
+                >
+                  Update Address
+                </button>
+              </div>
             ) : (
               <div className="mb-3">
                 {auth?.token ? (
@@ -119,6 +165,11 @@ const CartPage = () => {
                   </button>
                 )}
               </div>
+            )}
+            {cart.length > 0 && auth?.token && (
+              <button className="btn btn-success mt-3" onClick={handlePayment}>
+                Proceed to Payment
+              </button>
             )}
           </div>
         </div>

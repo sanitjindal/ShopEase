@@ -18,7 +18,7 @@ const CreateProduct = () => {
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
 
-  //get all category
+  // Fetch all categories
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/category/get-category");
@@ -26,8 +26,8 @@ const CreateProduct = () => {
         setCategories(data?.category);
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong in getting category");
+      console.error(error);
+      toast.error("Something went wrong while fetching categories.");
     }
   };
 
@@ -35,30 +35,51 @@ const CreateProduct = () => {
     getAllCategory();
   }, []);
 
-  //create product function
+  // Handle product creation
   const handleCreate = async (e) => {
     e.preventDefault();
+
+    // Parse and validate price and quantity
+    const numericPrice = parseFloat(price);
+    const numericQuantity = parseInt(quantity, 10);
+
+    if (isNaN(numericPrice) || numericPrice < 0) {
+      toast.error("Price must be a non-negative number.");
+      return;
+    }
+
+    if (isNaN(numericQuantity) || numericQuantity < 0) {
+      toast.error("Quantity must be a non-negative number.");
+      return;
+    }
+
+    // Ensure all required fields are filled
+    if (!name || !description || !category || !photo) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
     try {
       const productData = new FormData();
       productData.append("name", name);
       productData.append("description", description);
-      productData.append("price", price);
-      productData.append("quantity", quantity);
+      productData.append("price", numericPrice);
+      productData.append("quantity", numericQuantity);
       productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.post(
-        "/api/product/create-product",
-        productData
-      );
+      productData.append("shipping", shipping);
+
+      const { data } = await axios.post("/api/product/create-product", productData);
+
       if (data?.success) {
-        toast.error(data?.message);
-      } else {
-        toast.success("Product Created Successfully");
+        toast.success("Product created successfully!");
         navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message || "Failed to create product.");
       }
     } catch (error) {
-      console.log(error);
-      toast.error("something went wrong");
+      console.error(error);
+      toast.error("Something went wrong while creating the product.");
     }
   };
 
@@ -72,15 +93,15 @@ const CreateProduct = () => {
           <div className="col-md-9">
             <h1>Create Product</h1>
             <div className="m-1 w-75">
+              {/* Category Selection */}
               <Select
-                variant={false}
+              variant={false}
                 placeholder="Select a category"
                 size="large"
                 showSearch
                 className="form-select mb-3"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
+                onChange={(value) => setCategory(value)}
+                value={category || undefined}
               >
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
@@ -88,6 +109,8 @@ const CreateProduct = () => {
                   </Option>
                 ))}
               </Select>
+
+              {/* Photo Upload */}
               <div className="mb-3">
                 <label className="btn btn-outline-secondary col-md-12">
                   {photo ? photo.name : "Upload Photo"}
@@ -100,70 +123,93 @@ const CreateProduct = () => {
                   />
                 </label>
               </div>
-              <div className="mb-3">
-                {photo && (
-                  <div className="text-center">
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="product_photo"
-                      height={"200px"}
-                      className="img img-responsive"
-                    />
-                  </div>
-                )}
-              </div>
+              {photo && (
+                <div className="mb-3 text-center">
+                  <img
+                    src={URL.createObjectURL(photo)}
+                    alt="Product Preview"
+                    height="200px"
+                    className="img img-responsive"
+                  />
+                </div>
+              )}
+
+              {/* Product Name */}
               <div className="mb-3">
                 <input
                   type="text"
                   value={name}
-                  placeholder="Enter name "
+                  placeholder="Enter product name"
                   className="form-control"
                   onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <textarea
-                  type="text"
-                  value={description}
-                  placeholder="Write the description"
-                  className="form-control"
-                  onChange={(e) => setDescription(e.target.value)}
+                  required
                 />
               </div>
 
+              {/* Product Description */}
+              <div className="mb-3">
+                <textarea
+                  value={description}
+                  placeholder="Write the product description"
+                  className="form-control"
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Product Price */}
               <div className="mb-3">
                 <input
                   type="number"
                   value={price}
-                  placeholder="Enter Price"
+                  placeholder="Enter price"
                   className="form-control"
-                  onChange={(e) => setPrice(e.target.value)}
+                  min="0"
+                  
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === "" || parseFloat(val) >= 0) {
+                      setPrice(val);
+                    }
+                  }}
+                  required
                 />
               </div>
+
+              {/* Product Quantity */}
               <div className="mb-3">
                 <input
                   type="number"
                   value={quantity}
                   placeholder="Enter quantity"
                   className="form-control"
-                  onChange={(e) => setQuantity(e.target.value)}
+                  min="0"
+                  step="1"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === "" || parseInt(val, 10) >= 0) {
+                      setQuantity(val);
+                    }
+                  }}
+                  required
                 />
               </div>
+
+              {/* Shipping Selection */}
               <div className="mb-3">
                 <Select
-                  variant={false}
                   placeholder="Select Shipping"
                   size="large"
-                  showSearch
                   className="form-select mb-3"
-                  onChange={(value) => {
-                    setShipping(value);
-                  }}
+                  onChange={(value) => setShipping(value)}
+                  value={shipping || undefined}
                 >
                   <Option value="0">No</Option>
                   <Option value="1">Yes</Option>
                 </Select>
               </div>
+
+              {/* Submit Button */}
               <div className="mb-3">
                 <button className="btn btn-primary" onClick={handleCreate}>
                   CREATE PRODUCT

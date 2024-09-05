@@ -1,72 +1,243 @@
 /* Registration Page */
-
-.form-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-    flex-direction: column;
-    /* background-color: #ffdee9; */
-    /* background-image: linear-gradient(0deg,#ffdee9, #b5fffc 100% );   */
-    /* background-image: url('https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); */
-    background-image: url('../../public/images/Background-image');
-    background-size: cover;
-    background-position: center; 
-    background-repeat: no-repeat; 
-
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  flex-direction: column;
+  background-image: url('../../public/images/Background-image'); /* Update with the correct path */
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; 
 }
-.form-container form{
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding: 20px;
-    /* background-color: lightsteelblue; */
-  
-    background: linear-gradient(135deg, #4c4b57, #f0f0f0); 
-    border-radius: 10px; 
 
+.form-container form {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #4c4b57, #f0f0f0); 
+  border-radius: 12px; 
+  width: 100%;
+  max-width: 400px; /* Limit the form width for better centering */
 }
 
 .form-container form .title {
-    text-align: center;
-    margin-bottom: 15px;
-    font-size: 30px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: "Poppins", serif;
+  color: #333; /* A softer color for the title */
+}
+
+.form-container form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-bottom: 1px solid #7b7897;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+}
+
+.form-container form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: #000;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-container form button:hover {
+  background: linear-gradient(to right, #434343, #000000);
+}
+
+.form-container form .login-with-google-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: #db4437;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container form .login-with-google-btn:hover {
+  background-color: #c23321;
+}
+
+.form-container form .nav-link {
+  margin-top: 20px;
+  text-align: center;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.form-container form .nav-link:hover {
+  text-decoration: underline;
+}
+
+
+/* Styling for full-width buttons */
+.full-width {
+    width: 100%;
+    margin-top: 15px; /* Adds spacing between the buttons */
+    padding: 10px;
+    font-size: 16px;
     font-weight: bold;
-    font-family: "Poppins", serif;
-}
-
-.form-container form input{
+    text-align: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
     border: none;
-    border-bottom: 1px solid #7b7897;
-    border-radius: 8px;
+    color: #fff;
+  }
+  
+  .oauth-btn {
+    background-color: #db4437; /* Google brand color */
+    border: none;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .oauth-btn:hover {
+    background-color: #c23321;
+  }
+  
+  /* Other existing styles */
+  
+  .register-forgot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .register-forgot .nav-link {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  .register-forgot .nav-link:last-child {
+    margin-bottom: 0;
+  }
+  
+
+ /* Wrapper styling for centering content */
+.otp-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* background: linear-gradient(135deg, #a2c2e6, #f2f2f2); Gradient background */
+  /* background: linear-gradient(135deg, #ff9a9e, #fad0c4); */
+  background: linear-gradient(135deg, #b7f8db, #50a7c2);
+  padding: 20px;
 }
 
-.form-container form button{
-    border: 1px solid black;
-    border-radius: 8px;
-    background-color: #000;
-    color: white;
-   
-    width: 300px;
+/* Container styling with background and shadow */
+.otp-container {
+  background-color: #ffffff; /* White background for the form */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  
 }
 
-
-
-.form-container form button:hover{
-    border: 1px solid black;
-    background: #000000;
-    background: -webkit-linear-gradient(
-        to right,
-         #434343,
-          #000000
-    );
-    background:linear-gradient(
-        to right,
-         #434343,
-          #000000
-    );
-
-    
-    
-
+/* Title styling */
+.otp-title {
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333333;
 }
 
+/* Input group styling */
+.otp-input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
+/* Country code styling */
+.country-code {
+  background-color: #f1f1f1;
+  border: 1px solid #dddddd;
+  border-radius: 6px 0 0 6px;
+  padding: 14px;
+  font-size: 16px;
+  color: #333333;
+}
+
+/* Input field styling */
+.otp-input {
+  width: calc(100% - 54px); /* Adjust width considering the country code width */
+  padding: 14px;
+  border: 1px solid #dddddd;
+  border-radius: 0 6px 6px 0;
+  font-size: 16px;
+}
+
+/* Button styling */
+.otp-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+.otp-button:hover {
+  background-color: #0056b3;
+}
+
+/* Products Display Admin Panel */
+
+.product-card {
+  width: 100%; /* Full width of the container */
+  max-width: 300px; /* Adjusted max width for the cards */
+  margin: auto; /* Center the card within the column */
+  display: flex; /* Flex container for vertical alignment */
+  flex-direction: column; /* Stack items vertically */
+}
+
+.card-img-top {
+  height: 200px; /* Fixed height for images */
+  width: 100%; /* Full width of the card */
+  object-fit: contain; /* Ensure image is fully visible */
+}
+
+.card-body {
+  padding: 1rem; /* Adjust padding for a more comfortable look */
+}
+
+.card-title {
+  font-size: 1.2rem; /* Increase font size for the title */
+}
+
+.card-text {
+  font-size: 1rem; /* Adjust font size for the description */
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}

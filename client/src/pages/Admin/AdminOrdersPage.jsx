@@ -1,37 +1,36 @@
 import React, { useState, useEffect } from "react";
-import UserMenu from "../../components/Layout/UserMenu";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
+import AdminMenu from "../../components/Layout/AdminMenu";
 
-const Orders = () => {
+const AdminOrdersPage = () => {
   const [orders, setOrders] = useState([]);
-  const auth = JSON.parse(localStorage.getItem("auth")); // Replace with the method you're using to store the token
+  const auth = JSON.parse(localStorage.getItem("auth")); // Get auth token from local storage
 
-  const getOrders = async () => {
+  const getAllOrders = async () => {
     try {
-      const { data } = await axios.get("/api/orders/getOrders", {
+      const { data } = await axios.get("/api/orders/admin/getorders", {
         headers: {
           Authorization: auth.token,
         },
       });
 
-      console.log(data);
       setOrders(data.orders);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching orders:", error);
     }
   };
 
   useEffect(() => {
-    getOrders();
+    getAllOrders();
   }, []);
 
   return (
-    <Layout title={"Your Orders"}>
+    <Layout title={"Admin - All Orders"}>
       <div className="container-fluid p-3 m-3 dashboard">
         <div className="row">
           <div className="col-md-3">
-            <UserMenu />
+            <AdminMenu />
           </div>
           <div className="col-md-9">
             <h1 className="text-center">All Orders</h1>
@@ -41,7 +40,7 @@ const Orders = () => {
                   <tr>
                     <th scope="col">Order ID</th>
                     <th scope="col">Total Amount</th>
-                    <th scope="col">Products</th>
+                    <th scope="col">Created At</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,15 +48,7 @@ const Orders = () => {
                     <tr key={index}>
                       <td>{order._id}</td>
                       <td>Rs. {order.totalAmount}</td>
-                      <td>
-                        {order.products.map((product, i) => (
-                          <div key={i}>
-                            <h5>{product.name}</h5>
-                            <p>{product.description}</p>
-                            <p>Price: Rs.{product.price}</p>
-                          </div>
-                        ))}
-                      </td>
+                      <td>{new Date(order.createdAt).toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -72,4 +63,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AdminOrdersPage;

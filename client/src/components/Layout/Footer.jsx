@@ -23,14 +23,6 @@ const Footer = () => {
           <FontAwesomeIcon icon={faLinkedin} size="lg" />
         </Link>
       </p>
-      {/* <div>
-        <a href="https://www.github.com/sanitjindal" className='text-light mx-2' target='_blank' rel='noopener noreferrer'>
-          <FontAwesomeIcon icon={faGithub} size="lg" />
-        </a>
-        <a href="https://www.linkedin.com/in/sanitjindal" className='text-light mx-2' target='_blank' rel='noopener noreferrer'>
-          <FontAwesomeIcon icon={faLinkedin} size="lg" />
-        </a>
-      </div> */}
     </div>
   );
 }

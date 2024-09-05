@@ -81,7 +81,7 @@ export const singleCategoryController = async(req,res)=>{
         const category = await categoryModel.findOne({slug:req.params.slug});
         res.status(200).send({
             success:true,
-            message: "Get Single Catgory Successfully",
+            message: "Get Single Category Successfully",
             category
         })
     } catch (error) {
