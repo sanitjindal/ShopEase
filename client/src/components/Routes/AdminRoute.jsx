@@ -24,4 +24,4 @@ const AdminRoute = ()=>{
     return ok ? <Outlet/> : <Spinner path= "" />
 }
 
-export default AdminRoute
+export default AdminRoute;

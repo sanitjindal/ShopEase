@@ -24,4 +24,4 @@ const PrivateRoute = ()=>{
     return ok ? <Outlet/> : <Spinner/>
 }
 
-export default PrivateRoute
+export default PrivateRoute;
