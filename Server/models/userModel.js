@@ -47,4 +47,4 @@ userSchema.methods.generateJWT = function() {
     return token;
 };
 
-export default mongoose.model('user',userSchema)
+export default mongoose.model('user',userSchema);

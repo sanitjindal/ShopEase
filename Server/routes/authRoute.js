@@ -12,17 +12,17 @@ router.post("/register",registerController);
 router.post("/login", loginController);
 
 // Forgot password
-router.post("/forgot-password", forgotPasswordController)
+router.post("/forgot-password", forgotPasswordController);
 
 // test routes
-router.get("/test", requireSignIn , isAdmin,testController)
+router.get("/test", requireSignIn , isAdmin,testController);
 
 // protected User Route Auth
 
-router.get("/user-auth",requireSignIn, userAuthController)
+router.get("/user-auth",requireSignIn, userAuthController);
 
 // protected Admin Route Auth
-router.get("/admin-auth",requireSignIn, isAdmin, adminAuthController)
+router.get("/admin-auth",requireSignIn, isAdmin, adminAuthController);
 
 // profile route
 router.put("/profile", requireSignIn, updateProfileController);

@@ -40,7 +40,7 @@ app.use("/api/category",categoryRoutes);
 app.use("/api/product",productRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/orders',orderRoutes)
-app.use('/', googleRoute)
+app.use('/', googleRoute);
 
 
 
@@ -75,9 +75,9 @@ passport.use(
                     })
                     await user.save();
                 }
-                return done(null,user)
+                return done(null,user);
         } catch (error) {
-            return done(error,null)
+            return done(error,null);
         }
     }
     )

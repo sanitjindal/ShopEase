@@ -22,7 +22,7 @@ router.get("/single-category/:slug",singleCategoryController);
 
 // Delete category
 
-router.delete("/delete-category/:id",requireSignIn,isAdmin,deleteCategoryController)
+router.delete("/delete-category/:id",requireSignIn,isAdmin,deleteCategoryController);
 
 
 export default router;

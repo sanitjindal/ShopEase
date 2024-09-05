@@ -6,7 +6,7 @@ const router = express.Router();
 
 // routes
 
-router.post("/create-product",requireSignIn,isAdmin, formidable(), createProductController)
+router.post("/create-product",requireSignIn,isAdmin, formidable(), createProductController);
 
 // get Products
 router.get("/get-product", getProductController);
@@ -16,7 +16,7 @@ router.get("/get-product", getProductController);
 router.get("/get-product/:slug", getSingleProductController);
 
 // get photo
-router.get("/product-photo/:pid", productPhotoController)
+router.get("/product-photo/:pid", productPhotoController);
 
 // delete product
 router.delete("/delete-product/:pid", deleteProductController);
@@ -44,7 +44,7 @@ router.put(
   router.get("/search/:keyword", searchProductController);
 
   // Similar Product
-  router.get("/related-product/:pid/:cid", relatedProductController)
+  router.get("/related-product/:pid/:cid", relatedProductController);
 
   // category Wise Product
   router.get("/product-category/:slug", productCategoryController);
