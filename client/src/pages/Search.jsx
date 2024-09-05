@@ -30,7 +30,6 @@ const Search = () => {
                     <button className="btn btn-secondary ms-1">Add to Cart</button>
                   </div>
                 </div>
-              
             ))}
         </div>
         </div>
@@ -39,4 +38,4 @@ const Search = () => {
   )
 }
 
-export default Search
+export default Search;
