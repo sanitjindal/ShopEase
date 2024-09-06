@@ -19,7 +19,7 @@ const Header = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/login/success", { withCredentials: true });
+      const response = await axios.get(`${process.env.REACT_APP_API}/login/success`, { withCredentials: true });
       setUserData(response.data.user);
     } catch (error) {
       console.log(error);
