@@ -9,23 +9,36 @@ const VerifyOTPComponent = ({ otpToken }) => {
     const [newPassword, setNewPassword] = useState('');
     const navigate = useNavigate();
 
-    // Retrieve phone number from localStorage when the component mounts
     useEffect(() => {
         const storedPhoneNumber = localStorage.getItem('phoneNumber');
         if (storedPhoneNumber) {
-            setPhone(storedPhoneNumber);
+            setPhone(`+91${storedPhoneNumber}`);
         }
     }, []);
 
     const handleVerifyOTP = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API}/api/verify-otp`, { otpToken, otp, newPassword, phone });
-            navigate('/login');
-            console.log("Response:", response);
+            const response = await axios.post('/api/verify-otp', { otpToken, otp, newPassword, phone });
+
+            console.log('Response:', response.data);
+
+            if (response) {
+                // alert('Password reset successfully.')
+                toast.success('Password reset successfully.');
+
+                
+                // Attempt to navigate immediately without delay
+                navigate('/login');
+            } else {
+                toast.error('Failed to reset password. Please check your OTP and try again.');
+            }
         } catch (error) {
-            toast.error('Failed to reset password. Please try again.');
+            toast.error('An error occurred. Please try again.');
+            console.error('Error:', error);
         }
     };
+
+  
 
     return (
         <div style={styles.fullScreenContainer}>
@@ -35,9 +48,8 @@ const VerifyOTPComponent = ({ otpToken }) => {
                     type="text"
                     placeholder="Enter Phone Number"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
                     style={styles.input}
-                    readOnly // Make the input read-only since it's retrieved from localStorage
+                    readOnly
                 />
                 <input
                     type="text"
@@ -61,6 +73,8 @@ const VerifyOTPComponent = ({ otpToken }) => {
                 >
                     Reset Password
                 </button>
+                {/* Button to test navigation */}
+                
             </div>
         </div>
     );
@@ -120,6 +134,19 @@ const styles = {
     buttonHover: {
         backgroundColor: '#ff6f61',
     },
+    testButton: {
+        marginTop: '10px',
+        padding: '12px',
+        width: '100%',
+        borderRadius: '8px',
+        border: 'none',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+        backgroundColor: '#00aaff',
+        color: '#fff',
+        transition: 'background 0.3s ease',
+    }
 };
 
 export default VerifyOTPComponent;
