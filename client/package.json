@@ -1,6 +1,10 @@
 {
   "name": "client",
+<<<<<<< HEAD
   
+=======
+  "proxy": "https://shopease-49i4.onrender.com",
+>>>>>>> 55b9bb95d6edc065617c9763167187f8660d074d
   "version": "0.1.0",
   "private": true,
   "dependencies": {
