@@ -21,7 +21,7 @@ const OrderConfirmationPage = () => {
         
         if (sessionId) {
           // Optionally, you can send the session_id to your backend for further processing
-          const response = await fetch('http://localhost:8080/api/orders/create-order', {
+          const response = await fetch(`${process.env.REACT_APP_API}/api/orders/create-order`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

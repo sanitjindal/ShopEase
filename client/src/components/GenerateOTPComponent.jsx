@@ -15,7 +15,7 @@ const GenerateOTPComponent = ({ setOtpToken }) => {
     }
 
     try {
-      const { data } = await axios.post('/api/generate-otp', { phone: `+91${phone}` });
+      const { data } = await axios.post(`${process.env.REACT_APP_API}/api/generate-otp`, { phone: `+91${phone}` });
       toast.success('OTP sent successfully!');
       
       // Store the phone number in localStorage

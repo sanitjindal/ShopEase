@@ -9,7 +9,7 @@ const AdminOrdersPage = () => {
 
   const getAllOrders = async () => {
     try {
-      const { data } = await axios.get("/api/orders/admin/getorders", {
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/orders/admin/getorders`, {
         headers: {
           Authorization: auth.token,
         },

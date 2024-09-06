@@ -74,7 +74,7 @@ const Register = () => {
     }
 
     try {
-      const res = await axios.post("/api/register", {
+      const res = await axios.post(`${process.env.REACT_APP_API}/api/register`, {
         name,
         email,
         password,
@@ -98,7 +98,7 @@ const Register = () => {
   };
 
   const loginWithGoogle = () => {
-    window.open("http://localhost:8080/auth/google/callback", "_self");
+    window.open(`${process.env.REACT_APP_API}/auth/google/callback`, "_self");
   };
 
   return (

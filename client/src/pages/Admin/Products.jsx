@@ -12,7 +12,7 @@ const Products = () => {
   // Get all products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("/api/product/get-product");
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/product/get-product`);
       setProducts(data.products);
     } catch (error) {
       console.log(error);
@@ -42,7 +42,7 @@ const Products = () => {
                 >
                   <div className="card product-card">
                     <img
-                      src={`/api/product/product-photo/${p._id}`}
+                      src={`${process.env.REACT_APP_API}/api/product/product-photo/${p._id}`}
                       className="card-img-top"
                       alt={p.name}
                     />

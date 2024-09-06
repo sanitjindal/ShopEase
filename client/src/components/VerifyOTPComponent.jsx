@@ -19,7 +19,7 @@ const VerifyOTPComponent = ({ otpToken }) => {
 
     const handleVerifyOTP = async () => {
         try {
-            const response = await axios.post('/api/verify-otp', { otpToken, otp, newPassword, phone });
+            const response = await axios.post(`${process.env.REACT_APP_API}/api/verify-otp`, { otpToken, otp, newPassword, phone });
             navigate('/login');
             console.log("Response:", response);
         } catch (error) {

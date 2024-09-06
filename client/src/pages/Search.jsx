@@ -18,7 +18,7 @@ const Search = () => {
             
                 <div className="card m-2" style={{ width: "18rem" }}>
                   <img
-                    src={`/api/product/product-photo/${p._id}`}
+                    src={`${process.env.REACT_APP_API}/api/product/product-photo/${p._id}`}
                     className="card-img-top"
                     alt={p.name}
                   />

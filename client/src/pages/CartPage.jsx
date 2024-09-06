@@ -51,7 +51,7 @@ const CartPage = () => {
 
       // Step 1: Create a Stripe Checkout session
       const response = await fetch(
-        "http://localhost:8080/api/payment/create-checkout-session",
+        `${process.env.REACT_APP_API}/api/payment/create-checkout-session`,
         {
           method: "POST",
           headers: {
@@ -106,7 +106,7 @@ const CartPage = () => {
               <div className="row mb-2 p-3 card flex-row" key={p._id}>
                 <div className="col-md-4">
                   <img
-                    src={`/api/product/product-photo/${p._id}`}
+                    src={`${process.env.REACT_APP_API}/api/product/product-photo/${p._id}`}
                     className="card-img-top"
                     alt={p.name}
                     width="100px"

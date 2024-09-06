@@ -9,7 +9,7 @@ const Orders = () => {
 
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("/api/orders/getOrders", {
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/orders/getOrders`, {
         headers: {
           Authorization: auth.token,
         },

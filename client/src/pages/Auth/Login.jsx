@@ -48,7 +48,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post("/api/login", { email, password });
+      const res = await axios.post(`${process.env.REACT_APP_API}/api/login`, { email, password });
       if (res && res.data.success) {
         toast.success(res.data.message, { duration: 2000 });
         setAuth({
@@ -70,7 +70,7 @@ const Login = () => {
   };
 
   const loginWithGoogle = () => {
-    window.open("http://localhost:8080/auth/google/callback", "_self");
+    window.open(`${process.env.REACT_APP_API}/auth/google/callback`, "_self");
   };
 
   return (
