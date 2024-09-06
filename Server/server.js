@@ -29,7 +29,7 @@ const clientsecret = process.env.CLIENT_SECRET
 // MiddleWare
 
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow only your frontend origin
+    origin: process.env.FRONTEND_URL, // Allow only your frontend origin
     credentials: true // Allow credentials (cookies, authorization headers, etc.)
 }));
 app.use(express.json());
@@ -47,7 +47,7 @@ app.use('/', googleRoute);
 // Setup Session
 
 app.use(session({
-    secret :"15672983hakdhfjkjdsd",
+    secret :process.env.SESSION_SECRET,
     resave :false,
     saveUninitialized :true,
 })) // Generate a unique session ID whenever User Logins With google
@@ -59,7 +59,7 @@ passport.use(
     new OAuth2Strategy({
         clientID: clientid,
         clientSecret: clientsecret,
-        callbackURL: "http://localhost:8080/auth/google/callback",
+        callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
         scope: ["profile","email"]
     },
     async(accessToken, refreshToken, profile, done) => {

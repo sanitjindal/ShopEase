@@ -8,7 +8,7 @@ router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 
 // Callback route for Google authentication
 router.get('/auth/google/callback', 
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:3000/login',
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
     session: false
   }),
   (req, res) => {
@@ -17,7 +17,7 @@ router.get('/auth/google/callback',
 
     const userStr = encodeURIComponent(JSON.stringify(user));
 
-    res.redirect(`http://localhost:3000/google/callback?token=${token}&user=${userStr}`);
+    res.redirect(`${process.env.FRONTEND_URL}/google/callback?token=${token}&user=${userStr}`);
   }
 );
 
