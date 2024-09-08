@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 80vh;
+  min-height: 80vh; /* Full screen height */
   flex-direction: column;
   background-image: url('../../public/images/Background-image'); /* Update with the correct path */
   background-size: cover;
@@ -26,17 +26,35 @@
   font-size: 28px;
   font-weight: bold;
   font-family: "Poppins", serif;
-  color: #333; /* A softer color for the title */
+  color: #333;
 }
 
+.form-container form .input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-container form .input-group-text,
 .form-container form input {
-  width: 100%;
+  width: 100%; /* Ensures both fields are the same width */
   padding: 10px;
   margin: 10px 0;
   border: none;
   border-bottom: 1px solid #7b7897;
   border-radius: 8px;
   background-color: #f7f7f7;
+}
+
+.form-container form .input-group-text {
+  flex: 0 0 25%; /* Set a proportion for the country code box */
+  max-width: 80px; /* Limit the width of the +91 input */
+  text-align: center;
+  border-right: none; /* Remove border from the right side */
+}
+
+.form-container form input {
+  flex: 1; /* Ensure the input box takes up the remaining space */
 }
 
 .form-container form button {
@@ -54,6 +72,7 @@
 .form-container form button:hover {
   background: linear-gradient(to right, #434343, #000000);
 }
+
 
 .form-container form .login-with-google-btn {
   width: 100%;
